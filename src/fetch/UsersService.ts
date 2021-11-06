@@ -18,10 +18,6 @@ export class UsersService {
     return result !== undefined;
   }
 
-  static async postUserToCollection(user: User) {
-    await users.doc(user.nombreUsuario).set(user);
-  }
-
   static async signOutUser() {
     await app.auth().signOut();
     localStorage.removeItem("FaceUNLa.JWT");

@@ -34,18 +34,18 @@ const Login: React.FC<{}> = () => {
       )
       const loggedInUser = userCredential.user
 
-      const user = (
-        await UsersService.fetchUserByEmail(loggedInUser?.email!)
-      )?.data() as User
+      // const user = (
+      //   await UsersService.fetchUserByEmail(loggedInUser?.email!)
+      // )?.data() as User
 
-      localStorage.setItem(
-        'FaceUNLa.JWT',
-        (await loggedInUser?.getIdToken()) || '',
-      )
-      localStorage.setItem('FaceUNLa.UserName', user.nombreUsuario)
-      localStorage.setItem('FaceUNLa.Nombre', user.nombre)
-      localStorage.setItem('FaceUNLa.Apellido', user.apellido)
-      localStorage.setItem('FaceUNLa.UserId', auth.currentUser?.uid || '')
+      // localStorage.setItem(
+      //   'UNLaLibre.JWT',
+      //   (await loggedInUser?.getIdToken()) || '',
+      // )
+      // localStorage.setItem('UNLaLibre.NomberUsuario', user.nombreUsuario)
+      // localStorage.setItem('UNLaLibre.Nombre', user.nombre)
+      // localStorage.setItem('UNLaLibre.Apellido', user.apellido)
+      // localStorage.setItem('UNLaLibre.UserId', auth.currentUser?.uid || '')
 
       setOpen(true)
       setTimeout(() => {
