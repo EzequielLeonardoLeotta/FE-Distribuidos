@@ -12,7 +12,7 @@ const app = !firebase.apps.length
       messagingSenderId: '868126810471',
       appId: '1:868126810471:web:5390ee16d3d149123a4fc2',
     })
-  : firebase.app()
+  : firebase.app() 
 
 export const storage = firebase.storage()
 export const firestore = firebase.firestore()

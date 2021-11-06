@@ -2,9 +2,8 @@ import {
   Button,
   CircularProgress,
   Container,
+  Grid,
   Link,
-  MenuItem,
-  Select,
   Snackbar,
   TextField,
   Typography,
@@ -14,32 +13,24 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { auth } from "../../config";
 import { ClientRoutes } from "../../config/enums";
-import { UsersService } from "../../fetch/UsersService";
+import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
+import RemoveOutlinedIcon from '@material-ui/icons/RemoveOutlined';
 
 const Register: React.FC = () => {
   const [nombreUsuario, setNombreUsuario] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
+  const [dni, setDni] = useState("");
+  const [domicilios, setDomicilios] = useState<string[]>([""]);
+  const [tarjetas, setTarjetas] = useState<string[]>([""]);
+  const [cuentas, setCuentas] = useState<string[]>([""]); //En el servicio es un array de number
+  const [telefono, setTelefono] = useState<number>();
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
-  const [seguidos, setSeguidos] = useState([]);
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const history = useHistory();
-
-  const createTopics = (nombreUsuario: string) => {
-    fetch("http://localhost:9000/createTopic", {
-      method: "POST",
-      body: JSON.stringify({nombreUsuario: nombreUsuario}),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      console.log(response);
-    });
-  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -49,27 +40,16 @@ const Register: React.FC = () => {
 
       await auth.createUserWithEmailAndPassword(email, contraseña);
 
-      const seguidos: Array<string> = []
-
-      await UsersService.postUserToCollection({
-        nombreUsuario,
-        nombre,
-        apellido,
-        email,
-        seguidos,
-      });
-      
-      // createTopics(nombreUsuario)
-
       const currentUser = auth.currentUser;
       localStorage.setItem(
-        "FaceUNLa.JWT",
+        "UNLaLibre.JWT",
         (await currentUser?.getIdToken()) || ""
       );
-      localStorage.setItem("FaceUNLa.UserName", nombreUsuario);
-      localStorage.setItem("FaceUNLa.Nombre", nombre);
-      localStorage.setItem("FaceUNLa.Apellido", apellido);
-      localStorage.setItem("FaceUNLa.UserId", auth.currentUser?.uid || "");
+      localStorage.setItem("UNLaLibre.NomberUsuario", nombreUsuario);
+      localStorage.setItem("UNLaLibre.Nombre", nombre);
+      localStorage.setItem("UNLaLibre.Apellido", apellido);
+      localStorage.setItem("UNLaLibre.Dni", dni);
+      localStorage.setItem("UNLaLibre.UserId", auth.currentUser?.uid || "");
 
       setOpen(true);
       setTimeout(() => {
@@ -82,6 +62,75 @@ const Register: React.FC = () => {
     }
   };
 
+  const handleInputChange = (value: string, index: number, tipo: string) => {
+    switch (tipo) {
+      case "domicilios":
+        const arrayDomicilios = [...domicilios];
+        arrayDomicilios[index] = value;
+        setDomicilios(arrayDomicilios);
+        break;
+
+      case "tarjetas":
+        const arrayTarjetas = [...tarjetas];
+        arrayTarjetas[index] = value;
+        setTarjetas(arrayTarjetas);
+        break;
+
+      case "cuentas":
+        const arrayCuentas = [...cuentas];
+        arrayCuentas[index] = value;
+        setTarjetas(arrayCuentas);
+        break;
+    
+      default:
+        break;
+    }
+  };
+
+  const handleRemoveClick = (index: number, tipo: string) => {
+    switch (tipo) {
+      case "domicilios":
+        const arrayDomicilios = [...domicilios];
+        arrayDomicilios.splice(index, 1);
+        setDomicilios(arrayDomicilios);
+        break;
+
+      case "tarjetas":
+        const arrayTarjetas = [...tarjetas];
+        arrayTarjetas.splice(index, 1);
+        setTarjetas(arrayTarjetas);
+        break;
+
+      case "cuentas":
+        const arrayCuentas = [...cuentas];
+        arrayCuentas.splice(index, 1);
+        setCuentas(arrayCuentas);
+        break;
+    
+      default:
+        break;
+    }
+  };
+
+  const handleAddClick = (tipo: string) => {
+    switch (tipo) {
+      case "domicilios":
+        setDomicilios([...domicilios, ""]);
+        break;
+
+      case "tarjetas":
+        setTarjetas([...tarjetas, ""]);
+        break;
+
+      case "cuentas":
+        setCuentas([...cuentas, ""]);
+        break;
+    
+      default:
+        break;
+    }
+  };
+
   return (
     <Container component="main" maxWidth="sm" style={{ padding: "1rem" }}>
       <Typography
@@ -91,7 +140,7 @@ const Register: React.FC = () => {
           paddingBottom: "1rem",
         }}
       >
-        ¡Registrate para ser parte de esta red social!
+        ¡Registrate para poder comprar y vender 100% online!
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField
@@ -118,6 +167,114 @@ const Register: React.FC = () => {
           required
           style={{ width: "100%", paddingBottom: "1rem" }}
         />
+        <TextField
+          onChange={(event) => setDni(event.target.value)}
+          id="dni"
+          label="DNI"
+          variant="outlined"
+          required
+          style={{ width: "100%", paddingBottom: "1rem" }}
+        />
+        
+        {domicilios.map((item: string, index: number) => {
+          return (
+            <>
+              <Grid container spacing={2} style={{ width: "100%", paddingBottom: "1rem" }} alignItems='center' alignContent='center'/>
+                <div style={{display: "flex"}}>
+                  <TextField
+                    //@ts-ignore
+                    onChange={(event) => handleInputChange(event.target.value, index, "domicilios")}
+                    label="Domicilio"
+                    type="domicilio"
+                    variant="outlined"
+                    required
+                    style={{ width: domicilios.length === index + 1 ? "95%" : "100%", paddingBottom: "1rem" }}
+                  />
+                    {domicilios.length !== 1 && domicilios.length === index + 1 &&
+                      <div onClick={() => handleRemoveClick(index, "domicilios")}>
+                        <RemoveOutlinedIcon style={{paddingLeft: '4px', cursor: 'pointer'}} />
+                      </div>
+                    }
+                    {domicilios.length - 1 === index && 
+                      <div onClick={() => handleAddClick("domicilios")}>
+                      <AddOutlinedIcon style={{paddingLeft: '4px', cursor: 'pointer'}} />
+                    </div>
+                    }
+                </div>
+              <Grid/>
+            </>
+            )
+        })}
+
+        {tarjetas.map((item: string, index: number) => {
+          return (
+            <>
+              <Grid container spacing={2} style={{ width: "100%", paddingBottom: "1rem" }} alignItems='center' alignContent='center'/>
+                <div style={{display: "flex"}}>
+                  <TextField
+                    //@ts-ignore
+                    onChange={(event) => handleInputChange(event.target.value, index, "tarjetas")}
+                    label="Tarjeta"
+                    type="tarjeta"
+                    variant="outlined"
+                    required
+                    style={{ width: tarjetas.length === index + 1 ? "95%" : "100%", paddingBottom: "1rem" }}
+                  />
+                    {tarjetas.length !== 1 && tarjetas.length === index + 1 &&
+                      <div onClick={() => handleRemoveClick(index, "tarjetas")}>
+                        <RemoveOutlinedIcon style={{paddingLeft: '4px', cursor: 'pointer'}} />
+                      </div>
+                    }
+                    {tarjetas.length - 1 === index && 
+                      <div onClick={() => handleAddClick("tarjetas")}>
+                      <AddOutlinedIcon style={{paddingLeft: '4px', cursor: 'pointer'}} />
+                    </div>
+                    }
+                </div>
+              <Grid/>
+            </>
+            )
+        })}
+
+        {cuentas.map((item: string, index: number) => {
+          return (
+            <>
+              <Grid container spacing={2} style={{ width: "100%", paddingBottom: "1rem" }} alignItems='center' alignContent='center'/>
+                <div style={{display: "flex"}}>
+                  <TextField
+                    //@ts-ignore
+                    onChange={(event) => handleInputChange(event.target.value, index, "cuentas")}
+                    label="Cuenta"
+                    type="cuenta"
+                    variant="outlined"
+                    required
+                    style={{ width: cuentas.length === index + 1 ? "95%" : "100%", paddingBottom: "1rem" }}
+                  />
+                    {cuentas.length !== 1 && cuentas.length === index + 1 &&
+                      <div onClick={() => handleRemoveClick(index, "cuentas")}>
+                        <RemoveOutlinedIcon style={{paddingLeft: '4px', cursor: 'pointer'}} />
+                      </div>
+                    }
+                    {cuentas.length - 1 === index && 
+                      <div onClick={() => handleAddClick("cuentas")}>
+                      <AddOutlinedIcon style={{paddingLeft: '4px', cursor: 'pointer'}} />
+                    </div>
+                    }
+                </div>
+              <Grid/>
+            </>
+            )
+        })}
+
+        <TextField
+          onChange={(event) => setTelefono(Number(event.target.value))}
+          label="Telefono"
+          type="telefono"
+          variant="outlined"
+          required
+          style={{ width: "100%", paddingBottom: "1rem" }}
+        />
+
         <TextField
           onChange={(event) => setEmail(event.target.value)}
           label="Email"
