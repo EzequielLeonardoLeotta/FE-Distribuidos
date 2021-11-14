@@ -2,9 +2,10 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import NotFoundPage from "../components/NotFound/NotFoundPage";
 import { ClientRoutes } from "../config/enums";
+import Home from "../pages/Home";
 import Login from "../pages/Login";
 import RegisterPage from "../pages/RegisterPage";
-import Notices from "../pages/Notices";
+
 
 const Routes: React.FC = () => {
   return (
@@ -14,8 +15,8 @@ const Routes: React.FC = () => {
           <Login />
         </Route>
 
-        <Route exact path={ClientRoutes.NOTICES}>
-          <Notices />
+        <Route exact path={ClientRoutes.HOME}>
+          <Home />
         </Route>
 
         <Route exact path={ClientRoutes.REGISTER}>

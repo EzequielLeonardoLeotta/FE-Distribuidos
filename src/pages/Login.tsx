@@ -12,8 +12,7 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import { auth } from '../config'
 import { ClientRoutes } from '../config/enums'
-import { UsersService } from '../fetch/UsersService'
-import { User } from '../models/User'
+import { UsuarioService } from '../fetch/UsuarioService'
 
 const Login: React.FC<{}> = () => {
   const [email, setEmail] = useState('')
@@ -32,24 +31,10 @@ const Login: React.FC<{}> = () => {
         email,
         contraseña,
       )
-      const loggedInUser = userCredential.user
-
-      // const user = (
-      //   await UsersService.fetchUserByEmail(loggedInUser?.email!)
-      // )?.data() as User
-
-      // localStorage.setItem(
-      //   'UNLaLibre.JWT',
-      //   (await loggedInUser?.getIdToken()) || '',
-      // )
-      // localStorage.setItem('UNLaLibre.NomberUsuario', user.nombreUsuario)
-      // localStorage.setItem('UNLaLibre.Nombre', user.nombre)
-      // localStorage.setItem('UNLaLibre.Apellido', user.apellido)
-      // localStorage.setItem('UNLaLibre.UserId', auth.currentUser?.uid || '')
 
       setOpen(true)
       setTimeout(() => {
-        history.push(ClientRoutes.NOTICES)
+        history.push(ClientRoutes.HOME)
       }, 3000)
     } catch (error) {
       //@ts-ignore

@@ -15,12 +15,13 @@ import { auth } from "../../config";
 import { ClientRoutes } from "../../config/enums";
 import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 import RemoveOutlinedIcon from '@material-ui/icons/RemoveOutlined';
+import { UsuarioService } from "../../fetch/UsuarioService";
 
 const Register: React.FC = () => {
   const [nombreUsuario, setNombreUsuario] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
-  const [dni, setDni] = useState("");
+  const [dni, setDni] = useState<number>();
   const [domicilios, setDomicilios] = useState<string[]>([""]);
   const [tarjetas, setTarjetas] = useState<string[]>([""]);
   const [cuentas, setCuentas] = useState<string[]>([""]); //En el servicio es un array de number
@@ -40,20 +41,30 @@ const Register: React.FC = () => {
 
       await auth.createUserWithEmailAndPassword(email, contraseña);
 
+      UsuarioService.saveUsuario({
+        nombre: nombre,
+        apellido: apellido,
+        usuario: nombreUsuario,
+        //@ts-ignore
+        dni: dni,
+        domicilios: domicilios,
+        //@ts-ignore
+        telefono: telefono,
+        tarjetas: tarjetas,
+        cuentas: cuentas.map(c => Number(c)),
+        saldo: 0
+      })
+
       const currentUser = auth.currentUser;
       localStorage.setItem(
         "UNLaLibre.JWT",
         (await currentUser?.getIdToken()) || ""
       );
       localStorage.setItem("UNLaLibre.NomberUsuario", nombreUsuario);
-      localStorage.setItem("UNLaLibre.Nombre", nombre);
-      localStorage.setItem("UNLaLibre.Apellido", apellido);
-      localStorage.setItem("UNLaLibre.Dni", dni);
-      localStorage.setItem("UNLaLibre.UserId", auth.currentUser?.uid || "");
 
       setOpen(true);
       setTimeout(() => {
-        history.push(ClientRoutes.NOTICES);
+        history.push(ClientRoutes.HOME);
       }, 3000);
     } catch (error: any) {
       alert("Error: " + error.code + ": " + error.message);
@@ -168,7 +179,7 @@ const Register: React.FC = () => {
           style={{ width: "100%", paddingBottom: "1rem" }}
         />
         <TextField
-          onChange={(event) => setDni(event.target.value)}
+          onChange={(event) => setDni(Number(event.target.value))}
           id="dni"
           label="DNI"
           variant="outlined"

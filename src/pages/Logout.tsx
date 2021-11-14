@@ -7,8 +7,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { ClientRoutes } from "../config/enums";
-import { UsersService } from "../fetch/UsersService";
-
+import { UsuarioService } from "../fetch/UsuarioService";
 
 const Logout: React.FC<{}> = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +18,7 @@ const Logout: React.FC<{}> = () => {
   useEffect(() => {
     const logout = async () => {
       try {
-        await UsersService.signOutUser();
+        await UsuarioService.signOutUser();
         setLogoutSuccess(true);
       } catch (error: any) {
         setError(error.message);
