@@ -52,7 +52,8 @@ const Register: React.FC = () => {
         telefono: telefono,
         tarjetas: tarjetas,
         cuentas: cuentas.map(c => Number(c)),
-        saldo: 0
+        saldo: 0,
+        email: email
       })
 
       const currentUser = auth.currentUser;
@@ -60,7 +61,7 @@ const Register: React.FC = () => {
         "UNLaLibre.JWT",
         (await currentUser?.getIdToken()) || ""
       );
-      localStorage.setItem("UNLaLibre.NomberUsuario", nombreUsuario);
+      localStorage.setItem("UNLaLibre.NombreUsuario", nombreUsuario);
 
       setOpen(true);
       setTimeout(() => {

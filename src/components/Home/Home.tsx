@@ -56,11 +56,11 @@ const Home: React.FC = () => {
   };
 
   const cerrarSesion = () => {
-    localStorage.setItem("FaceUNLa.JWT", "");
-    localStorage.setItem("FaceUNLa.UserName", "");
-    localStorage.setItem("FaceUNLa.Nombre", "");
-    localStorage.setItem("FaceUNLa.Apellido", "");
-    localStorage.setItem("FaceUNLa.UserId", "");
+    localStorage.setItem("UNLaLibre.JWT", "");
+    localStorage.setItem("UNLaLibre.UserName", "");
+    localStorage.setItem("UNLaLibre.Nombre", "");
+    localStorage.setItem("UNLaLibre.Apellido", "");
+    localStorage.setItem("UNLaLibre.UserId", "");
     history.push(ClientRoutes.LOGIN);
   };
 
@@ -98,7 +98,7 @@ const Home: React.FC = () => {
 
       <Grid item xs={4} className={classes.grid}>
         <Typography>
-          Bienvenido {localStorage.getItem("FaceUNLa.NombreUsuario")}   
+          Bienvenido {localStorage.getItem("UNLaLibre.NombreUsuario")}   
           <Badge onClick={()=>setIsVerNotificaciones(!isVerNotificaciones)} color="primary">
             <NotificationsNoneRoundedIcon />
             {/* <NotificationsRoundedIcon /> */}
@@ -116,7 +116,7 @@ const Home: React.FC = () => {
         <br/>
         {/* Aqui notificaciones */}
         {/* {isVerNotificaciones&& notificaciones?.map((notificacion:any, i: number) => {
-          if(notificacion.receiverUsername===localStorage.getItem("FaceUNLa.UserName")){
+          if(notificacion.receiverUsername===localStorage.getItem("UNLaLibre.UserName")){
             return (
               <Typography>
               A {notificacion.senderUsername} le gustó tu post "{notificacion.titulo}"

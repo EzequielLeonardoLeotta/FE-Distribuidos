@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
+import axios from 'axios'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import { auth } from '../config'
@@ -32,6 +33,11 @@ const Login: React.FC<{}> = () => {
         contraseña,
       )
 
+      const res = await axios.get(`http://localhost:8080/api/v1/usuario/${email}`)
+
+      localStorage.setItem("UNLaLibre.NombreUsuario", res.data.usuario);
+      localStorage.setItem("UNLaLibre.Email", email);
+
       setOpen(true)
       setTimeout(() => {
         history.push(ClientRoutes.HOME)
@@ -43,6 +49,12 @@ const Login: React.FC<{}> = () => {
       setIsSubmitting(false)
     }
   }
+
+  // const getProductos = async () => {
+  //   await axios.get('http://localhost:8080/api/v1/producto')
+  //     .then(res => setProductos(res.data))
+  //     .catch()
+  // };
 
   return (
     <Container
