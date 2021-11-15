@@ -112,58 +112,7 @@ const Home: React.FC = () => {
         >
           Cerrar sesión
         </Button>
-        <br/>
-        <br/>
-        {/* Aqui notificaciones */}
-        {/* {isVerNotificaciones&& notificaciones?.map((notificacion:any, i: number) => {
-          if(notificacion.receiverUsername===localStorage.getItem("UNLaLibre.UserName")){
-            return (
-              <Typography>
-              A {notificacion.senderUsername} le gustó tu post "{notificacion.titulo}"
-              </Typography>
-            )
-          }
-        })} */}
-
-        <Typography variant="h2">Agregar post</Typography>
-        <form noValidate autoComplete="off">
-          <br />
-          <TextField
-            className={classes.root}
-            // id="outlined-basic"
-            label="Ingrese título"
-            variant="outlined"
-            onChange={(e) => setTitulo(e.target.value)}
-          />
-          <br />
-          <Input
-            className={classes.root}
-            type="file"
-            onChange={(e) => onFileChange(e)}
-            inputProps={{
-              accept: ".png, .jpg, .bmp",
-            }}
-          />
-          <br />
-          <TextField
-            className={classes.root}
-            // id="outlined-basic"
-            label="Ingrese texto"
-            variant="outlined"
-            onChange={(e) => setTexto(e.target.value)}
-          />
-          <br />
-          {/* <Button
-            variant="contained"
-            onClick={() => agregarPost()}
-            color="secondary"
-          >
-            Subir post
-          </Button> */}
-          <br />
-        </form>
         <br />
-        <Typography variant="h2">Buscar personas</Typography>
       </Grid>
     </Grid>
   );
