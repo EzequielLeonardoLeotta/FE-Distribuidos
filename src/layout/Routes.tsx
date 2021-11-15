@@ -5,7 +5,6 @@ import { ClientRoutes } from "../config/enums";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import RegisterPage from "../pages/RegisterPage";
-import Notices from "../pages/Notices";
 import MesaDeAyuda from "../pages/MesaDeAyuda";
 
 
