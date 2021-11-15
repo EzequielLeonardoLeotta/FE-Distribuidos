@@ -5,6 +5,8 @@ import { ClientRoutes } from "../config/enums";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import RegisterPage from "../pages/RegisterPage";
+import Notices from "../pages/Notices";
+import MesaDeAyuda from "../pages/MesaDeAyuda";
 
 
 const Routes: React.FC = () => {
@@ -23,6 +25,10 @@ const Routes: React.FC = () => {
           <RegisterPage />
         </Route>
       
+        <Route exact path={ClientRoutes.MEZADEAYUDA}>
+          <MesaDeAyuda />
+        </Route>
+
         <Route>
           <NotFoundPage />
         </Route>
