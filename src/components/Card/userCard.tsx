@@ -5,7 +5,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import { Button, Grid } from "@material-ui/core";
-import { Post } from "../../models/models";
 import { firestore } from "../../config";
 
 const useStyles = makeStyles((theme) => ({

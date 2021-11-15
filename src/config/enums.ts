@@ -3,4 +3,5 @@ export enum ClientRoutes {
   REGISTER = "/register",
   NOTICES = "/notices",
   MEZADEAYUDA = "/mesaDeAyuda"
+  HOME = "/home"
 }

@@ -8,12 +8,12 @@ import {
   Typography,
 } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
+import axios from 'axios'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import { auth } from '../config'
 import { ClientRoutes } from '../config/enums'
-import { UsersService } from '../fetch/UsersService'
-import { User } from '../models/User'
+import { UsuarioService } from '../fetch/UsuarioService'
 
 const Login: React.FC<{}> = () => {
   const [email, setEmail] = useState('')
@@ -32,24 +32,15 @@ const Login: React.FC<{}> = () => {
         email,
         contraseña,
       )
-      const loggedInUser = userCredential.user
 
-      // const user = (
-      //   await UsersService.fetchUserByEmail(loggedInUser?.email!)
-      // )?.data() as User
+      const res = await axios.get(`http://localhost:8080/api/v1/usuario/${email}`)
 
-      // localStorage.setItem(
-      //   'UNLaLibre.JWT',
-      //   (await loggedInUser?.getIdToken()) || '',
-      // )
-      // localStorage.setItem('UNLaLibre.NomberUsuario', user.nombreUsuario)
-      // localStorage.setItem('UNLaLibre.Nombre', user.nombre)
-      // localStorage.setItem('UNLaLibre.Apellido', user.apellido)
-      // localStorage.setItem('UNLaLibre.UserId', auth.currentUser?.uid || '')
+      localStorage.setItem("UNLaLibre.NombreUsuario", res.data.usuario);
+      localStorage.setItem("UNLaLibre.Email", email);
 
       setOpen(true)
       setTimeout(() => {
-        history.push(ClientRoutes.NOTICES)
+        history.push(ClientRoutes.HOME)
       }, 3000)
     } catch (error) {
       //@ts-ignore
@@ -58,6 +49,12 @@ const Login: React.FC<{}> = () => {
       setIsSubmitting(false)
     }
   }
+
+  // const getProductos = async () => {
+  //   await axios.get('http://localhost:8080/api/v1/producto')
+  //     .then(res => setProductos(res.data))
+  //     .catch()
+  // };
 
   return (
     <Container
