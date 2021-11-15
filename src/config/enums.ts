@@ -1,5 +1,6 @@
 export enum ClientRoutes {
   LOGIN = "/",
   REGISTER = "/register",
-  NOTICES = "/notices"
+  NOTICES = "/notices",
+  MEZADEAYUDA = "/mesaDeAyuda"
 }
