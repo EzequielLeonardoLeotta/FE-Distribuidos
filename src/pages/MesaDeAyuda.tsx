@@ -82,7 +82,7 @@ const MesaDeAyuda: React.FC<{}> = () => {
      getProductos();
    },[])
    
-   
+   // HOLA PRUEBA 2
    const getReclamos = () => {
      fetch("http://localhost:8081/api/v1/reclamo", { method: "GET" })
        .then((response) => response.json())
